@@ -14,9 +14,20 @@ const userRoute = require("./routes/user");
 server.use("/posts", postRoute);
 server.use("/users", userRoute);
 
+
+server.use((err, req, res, next) => {
+    err.status = err.status || 200;
+    res.status(err.status).json({
+        con: false,
+        msg: err.message,
+    })
+})
+
 server.get("*", (req, res, next) => {
     res.status(200).json({msg: "No Route Found!"});
 });
+
+
 
 
 server.listen(process.env.PORT, console.log(`Server is running in PORT - ${process.env.PORT}`));
