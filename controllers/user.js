@@ -33,7 +33,6 @@ const drop = async(req, res, next) => {
     Helper.fmsg(res, "user is Deleted");
 }
 
-
 module.exports = {
     all,
     get,
