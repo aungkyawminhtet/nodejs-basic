@@ -14,23 +14,14 @@ server.use(fileupload());
 
 const postRoute = require("./routes/post");
 const userRoute = require("./routes/user");
-const {savefile, saveFiles, deletePhoto } = require('./utils/gallery');
+const catRoute = require("./routes/cat");
+// const {savefile, saveFiles, deletePhoto } = require('./utils/gallery');
 
-server.use("/upload", express.static(path.join(__dirname, "uploads")))
- 
-const complete = async(req, res, next) => {
-    console.log(req.body.name);
-    await deletePhoto(req.body.name);
-    res.status(200).json({
-        con: true,
-        msg: "deleted photo",
-    });
-}
-
-server.post("/gallery",complete);
+// server.use("/upload", express.static(path.join(__dirname, "uploads")))
 
 server.use("/posts", postRoute);
 server.use("/users",  userRoute);
+server.use("/categories", catRoute);
 
 server.use((err, req, res, next) => {
     err.status = err.status || 200;
