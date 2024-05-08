@@ -7,7 +7,13 @@ const all = async(req, res, next) => {
 }
 
 const post = async(req, res, next) => {
-    const catname = await DB.findOne({title: req.body.title});
+    const catname = await DB.findOne({name: req.body.name});
+    
+    if(catname){
+        next(new Error("cat Name is already in use"));
+        return;
+    }
+
     const cat = await new DB(req.body).save();
     Helper.fmsg(res, "category is posted", cat);
 }

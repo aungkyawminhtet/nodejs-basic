@@ -4,10 +4,9 @@ const savefile = async(req, res, next) => {
     let photo = await req.files.file;
     let name = new Date().valueOf() + "_" + photo.name;
     await photo.mv(`./uploads/${name}`);
-    req.body["name"] = name;
+    req.body["image"] = name;
     next();
 }
-
 
 const saveFiles = async(req, res, next) => {
     let photos = await req.files.files;
@@ -18,7 +17,7 @@ const saveFiles = async(req, res, next) => {
         phName.push(name);
     });
 
-    req.body["name"] = phName.join(",");
+    req.body["image"] = phName.join(",");
     next();
 }
 
@@ -26,7 +25,6 @@ const deletePhoto = async(filename) => {
     // console.log(filename);
     await fs.unlinkSync(`./uploads/${filename}`);
 }
-
 
 module.exports = {
     savefile,
