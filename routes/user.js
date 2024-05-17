@@ -4,7 +4,9 @@ const controller = require('../controllers/user');
 
 router.get("/",  controller.all);
 
-router.post("/", controller.post);
+router.post("/register", controller.post);
+
+router.post("/login", )
 
 router.route("/:id")
     .get(controller.get)

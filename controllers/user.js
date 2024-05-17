@@ -12,9 +12,24 @@ const get = async(req, res, next) => {
 }
 
 const post = async(req, res, next) => {
+    const username = await findOne({name: req.body.name});
+    if(username){
+        next(new Error("user Name is already exit"));
+        return;
+    }
+
+    const userphone = await findOne({email: req.body.email});
+    if(userphone) {
+        next(new Error("User phone is already exit"));
+        return
+    }
     const data = await new DB(req.body);
     const newData = await data.save();
     Helper.fmsg(res, "user added", newData);
+}
+
+const login = async(req, res, next) => {
+    res.status(200).json({msg: "this is login"});
 }
 
 const patch = async(req, res, next) => {
@@ -38,5 +53,6 @@ module.exports = {
     get,
     post,
     patch,
-    drop
+    drop,
+    login
 }

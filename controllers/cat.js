@@ -27,7 +27,7 @@ const get = async(req, res, next)=> {
 const patch = async(req, res, next) => {
     const cat = await DB.findById(req.params.id);
     if(cat) {
-        await DB.findByIdAndDelete(cat._id, req.body);
+        await DB.findByIdAndUpdate(cat._id, req.body);
         const retcat = await DB.findById(cat._id);
         Helper.fmsg(res, "cat is updated", retcat);
     } else {
@@ -36,10 +36,16 @@ const patch = async(req, res, next) => {
 
 }
 
-
 const drop = async(req, res, next) => {
-    await DB.findByIdAndDelete(req.params.id);
-    Helper.fmsg(res, "category is Deleted");
+
+    let cat = await DB.findById(req.params.id);
+    if (cat) {
+        await DB.findByIdAndDelete(req.params.id);
+        Helper.fmsg(res, "category is Deleted");                
+    } else {
+        next(new Error("Cat id is not found"));
+    }
+    
 }
 
 module.exports={

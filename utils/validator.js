@@ -9,5 +9,18 @@ module.exports = {
                 next();
             }
         }
+    },
+    validateParm: (schema, id) => {
+        return (req, res, next) => {
+            let obj = {};
+            obj[`${id}`] = req.params[`${id}`]
+            // console.log("from id schema ", obj);
+            const result = schema.validate(obj);
+            if(result.error) {
+                next(new Error(result.error.details[0].message))
+            } else {
+                next()
+            }
+        }
     }
 }
